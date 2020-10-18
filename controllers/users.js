@@ -1,21 +1,21 @@
-const authors = require ( '../models/authors.js' )();
+const users = require ( '../models/users.js' )();
 
 module.exports = () => {
 
 const getController = ( req , res ) => {
     res.setHeader ( 'Content-Type' , 'application/json' );
-    res.json( authors.get());
+    res.json( users.get());
 }
 
 const getById = (req,res)=> {
     res.setHeader('Content-Type','application/json')
-    res.json(authors.get(req.params.id));
+    res.json(users.get(req.params.id));
 }
 
 const postController = ( req , res ) => {
     const name = req.body.name;
-    authors.add(name);
-    return res.end ( `POST: ${ authors.name } ` );
+    users.add(name);
+    return res.end ( `POST: ${ users.name } ` );
 }
 
 return {

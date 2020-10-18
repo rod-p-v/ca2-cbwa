@@ -5,13 +5,13 @@ module.exports = () => {
     const get = (id = null) => {
     console.log ('inside books model' );
     if(!id){
-    return db.books;
+    return db.projects;
     }
-    return db.books[parseInt(id) -1];
+    return db.projects[parseInt(id) -1];
 }
-    const add = (name,author) => {
-    return db.books.push ({
-        id: db.books.length +1,
+    const add = (name,projects) => {
+    return db.projects.push ({
+        id: db.projects.length +1,
         name: name,
         author: author
     });

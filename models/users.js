@@ -5,13 +5,13 @@ module.exports = () => {
     const get = (id = null) => {
         console.log ('inside authors model' );
         if(!id){
-        return db.authors;
+        return db.users;
         }
-        return db.authors[parseInt(id) -1];
+        return db.users[parseInt(id) -1];
     }
     const add = (name) => {
-        return db.authors.push({
-            id: db.authors.length +1,
+        return db.users.push({
+            id: db.users.length +1,
             name,
         });
     }
