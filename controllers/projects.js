@@ -1,26 +1,29 @@
-const projects = require ('../models/projects.js')();
+const projects=require ("../models/projects.js") ();
 
 module.exports = () => {
 
-const getController = (req,res) => {
-    res.setHeader ( 'Content-Type' , 'application/json' );
-return  res.json(projects.get());
+const getController = async( req , res ) => {
+    res.json(await projects.get());
+};
+
+const populatedController = async (reg,res)=>{
+    res.json(await projects.aggregateWithIssues());
 }
 
-const getById = (req,res)=> {
-    res.setHeader('Content-Type','application/json')
-    res.json(projects.get(req.params.id));
+const getById = async(req,res)=> {
+    res.json(await projects.get(parseInt(req.params.id)));
 }
-const postController = ( req , res ) => {
-const name = req.body.name;
-const projects = req.body.projects;
-projects.add(name,projects);
-return res.end(`POST: ${ name } `)
+
+const postController = async( req , res ) => {
+    const name = req.body.name;
+    const result = await projects.add(name);
+    res.json(result);
 }
 
 return {
 getController ,
-postController, 
-getById
-}
-}
+postController,
+getById,
+populatedController,
+ };
+};

@@ -1,22 +1,20 @@
-const db = require('../db')();
+const db=require("../db")();
+const COLLECTION="users";
 
-module.exports = () => {
-    
-    const get = (id = null) => {
-        console.log ('inside authors model' );
-        if(!id){
-        return db.users;
+module.exports=()=>{
+    const getByKey=async(key)=>{
+        if(!key){
+            console.log(" 01:Missing key");
+            return null;
         }
-        return db.users[parseInt(id) -1];
-    }
-    const add = (name) => {
-        return db.users.push({
-            id: db.users.length +1,
-            name,
-        });
-    }
-    return {
-        get ,
-        add
-    }
+        const users=await db.get(COLLECTION,{key});
+        if (users.length !==1){
+            console.log(" 02:Bad key");
+            return null;
+        }
+        return users[0];
+    };
+    return{
+        getByKey
+    };
 };

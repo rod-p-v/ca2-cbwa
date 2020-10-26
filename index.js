@@ -1,12 +1,16 @@
 const express = require('express');
 const bodyParser = require ('body-parser');
+const { Code } = require('mongodb');
+const issues = require('./models/issues');
+const projects = require('./models/projects');
 
 const hostname = '0.0.0.0';
 const port = process.env.PORT || 3000;
 
-const authorController = require ( './controllers/authors' )();
-const booksController = require ( './controllers/books' )();
+const projectsController = require ( './controllers/projects' )();
+const issuesController = require ( './controllers/issues' )();
 
+const users=require("./models/users")();
 const app = module.exports = express();
 //logging
 app.use (( req , res , next ) => {
@@ -15,29 +19,71 @@ app.use (( req , res , next ) => {
     next();
 });
 
-app.use(bodyParser.json())
-//Get all books
-app.get ('/books',booksController.getController);
-//Add a book
-app.post ('/books',booksController.postController);
-//A book
-app.get('/books/:id',booksController.getById);
+app.use(async (req,res,next)=>{
+    const FailedAuthMessage={
+        error:"Failed Authentication",
+        message:"You aren't an authorized user",
+        code:"401",
+};
 
-//Get all authors
-app.get ('/authors',authorController.getController );
-//Add all authors
-app.post ('/authors',authorController.postController );
-//A author
-app.get('/authors/:id',authorController.getById);
+const suppliedKey=req.headers["x-api-key"];
+req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+
+if(!suppliedKey){
+    console.log(
+        "  [%s] FAILED AUTHENTICATION -- %s,No Key Supplied",
+        new Date(),
+        clientIp
+    );
+    FailedAuthMessage.code="01";
+    return res.status(401).json(FailedAuthMessage);
+}
+
+const user=await users.getByKey(suppliedKey);
+if (!user){
+    console.log(
+        " [%s] FAILED AUTHENTICATION -- %s,BAD Key Supplied",
+        new Date(),
+        clientIp
+    );
+    FailedAuthMessage.code="02";
+    return res.status(401).json(FailedAuthMessage);
+}
+next();
+});
+app.use(bodyParser.json());
+
+app.get("/", (req,res)=>{
+    res.json({
+      hello:"Welcome",  
+    });
+});
+//Get all projects
+app.get ('/issues',issuesController.getController);
+//Get all issues acording the project
+app.get("issues/populated",issuesController.populatedController);
+//Add a projects
+app.post ('/issues',issuesController.postController);
+//A projects
+app.get('/issues/:id',issuesController.getById);
+
+//Get all users
+app.get ('/projects',projectsController.getController);
+//Get all projects with issues
+app.get("/projects/populated",projectsController.populatedController);
+//Add all users
+app.post ('/projects',projectsController.postController );
+//A users
+app.get('/projects/:id',projectsController.getById);
 
 
 app.listen ( port , hostname, () => {
-    console.log ( `Server running at http:// ${ hostname } : ${ port } /` );
+    console.log ( `Server running at http:// ${hostname}:${port}/`);
     });
     // 404
-    app . use (( req , res ) => {
-    res . status ( 404 ). json ({
+    app.use((req,res) => {
+    res.status(404).json ({
     error: 404 ,
-    message: 'Route not found' ,
+    message: 'Route not found',
     });
 });
