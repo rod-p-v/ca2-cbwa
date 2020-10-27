@@ -27,7 +27,7 @@ app.use(async (req,res,next)=>{
 };
 
 const suppliedKey=req.headers["x-api-key"];
-req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+const clientIp=req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
 if(!suppliedKey){
     console.log(
@@ -87,3 +87,7 @@ app.listen ( port , hostname, () => {
     message: 'Route not found',
     });
 });
+
+
+
+//como push a git hub: git push -u origin main

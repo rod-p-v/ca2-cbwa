@@ -1,6 +1,6 @@
 const uri = process.env.MONGO_URI;
 const MongoClient=require('mongodb').MongoClient;
-const DB_NAME="PROJECT 0";
+const DB_NAME="BugTracker";
 const MONGO_OPTIONS = {useUnifiedTopology:true,useNewUrlParser:true};
 
 module.exports = () => {
@@ -20,11 +20,15 @@ module.exports = () => {
 
     const get=(collectionName,query={})=>{
         return new Promise((resolve,reject)=>{
+            console.log(collectionName,query,uri);
             MongoClient.connect(uri, MONGO_OPTIONS, (err, client)=>{
+                console.log("err");
+                console.log(err);
                 const db=client.db(DB_NAME);
                 const collection=db.collection(collectionName);
-
+                console.log("find");
                 collection.find(query).toArray((err,docs)=>{
+                    console.log(err);
                     resolve(docs);
                     client.close();
                 });
