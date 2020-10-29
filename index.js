@@ -1,8 +1,6 @@
 const express = require('express');
 const bodyParser = require ('body-parser');
-const { Code } = require('mongodb');
-const issues = require('./models/issues');
-const projects = require('./models/projects');
+
 
 const hostname = '0.0.0.0';
 const port = process.env.PORT || 3000;
@@ -24,32 +22,25 @@ app.use(async (req,res,next)=>{
         error:"Failed Authentication",
         message:"You aren't an authorized user",
         code:"401",
-};
-
-const suppliedKey=req.headers["x-api-key"];
-const clientIp=req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-
-if(!suppliedKey){
-    console.log(
-        "  [%s] FAILED AUTHENTICATION -- %s,No Key Supplied",
-        new Date(),
-        clientIp
-    );
-    FailedAuthMessage.code="01";
-    return res.status(401).json(FailedAuthMessage);
-}
-
-const user=await users.getByKey(suppliedKey);
-if (!user){
-    console.log(
-        " [%s] FAILED AUTHENTICATION -- %s,BAD Key Supplied",
-        new Date(),
-        clientIp
-    );
-    FailedAuthMessage.code="02";
-    return res.status(401).json(FailedAuthMessage);
-}
-next();
+    };
+    
+    const suppliedKey=req.headers["x-api-key"];
+    const clientIp=req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    
+    if(!suppliedKey) {
+        console.log("  [%s] FAILED AUTHENTICATION -- %s,No Key Supplied",new Date(), clientIp);
+        
+        FailedAuthMessage.code="01";
+        return res.status(401).json(FailedAuthMessage);
+    }
+    const user=await users.getByKey(suppliedKey);
+    if (!user) {
+        console.log(
+        " [%s] FAILED AUTHENTICATION -- %s,BAD Key Supplied", new Date(), clientIp);
+        FailedAuthMessage.code="02";
+        return res.status(401).json(FailedAuthMessage);
+    }
+    next();
 });
 app.use(bodyParser.json());
 
@@ -72,20 +63,23 @@ app.post ('/projects',projectsController.postController );
 //A projects
 app.get('/projects/:id',projectsController.getById);
 
-app.get("/", (req,res)=>{
+let COUNT = 0;
+app.get("/", (req,res) =>{
+    
     res.json({
-      hello:"Welcome",  
+        hello:"Welcome 2",  
+        count: COUNT++
     });
 });
 
 app.listen ( port , hostname, () => {
     console.log ( `Server running at http:// ${hostname}:${port}/`);
-    });
-    // 404
-    app.use((req,res) => {
+});
+// 404
+app.use((req,res) => {
     res.status(404).json ({
-    error: 404 ,
-    message: 'Route not found',
+        error: 404 ,
+        message: 'Route not found',
     });
 });
 
