@@ -53,11 +53,7 @@ next();
 });
 app.use(bodyParser.json());
 
-app.get("/", (req,res)=>{
-    res.json({
-      hello:"Welcome",  
-    });
-});
+
 //Get all projects
 app.get ('/issues',issuesController.getController);
 //Get all issues acording the project
@@ -67,15 +63,20 @@ app.post ('/issues',issuesController.postController);
 //A projects
 app.get('/issues/:id',issuesController.getById);
 
-//Get all users
-app.get ('/projects',projectsController.getController);
+//Get all projects
+app.get('/projects',projectsController.getController);
 //Get all projects with issues
 app.get("/projects/populated",projectsController.populatedController);
-//Add all users
+//Add all projects
 app.post ('/projects',projectsController.postController );
-//A users
+//A projects
 app.get('/projects/:id',projectsController.getById);
 
+app.get("/", (req,res)=>{
+    res.json({
+      hello:"Welcome",  
+    });
+});
 
 app.listen ( port , hostname, () => {
     console.log ( `Server running at http:// ${hostname}:${port}/`);

@@ -16,12 +16,12 @@ module.exports = () => {
     const get = async(id = null) => {
         console.log ('inside projects model' );
         if (!id){
-        const projcets=await db.get(COLLECTION);
-        return projcets;
-    }
-    const projects=await db.get(COLLECTION,{id});
-    return projects;
-};
+            const projcets=await db.get(COLLECTION);
+            return projcets;
+        }
+        const projects=await db.get(COLLECTION,{id});
+        return projects;
+    };
     const add = async(name) => {
         const projectsCount=await db.count(COLLECTION);
         const results=await db.add(COLLECTION, {
