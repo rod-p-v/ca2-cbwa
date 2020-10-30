@@ -23,16 +23,18 @@ module.exports = () => {
         const projects=await db.get(COLLECTION,{id});
         return projects;
     };
-    const add = async(name) => {
+    const add = async(slug,name,description) => {
         const projectsCount=await db.count(COLLECTION);
         const results=await db.add(COLLECTION, {
             id:projectsCount +1,
+            slug:slug,
             name:name,
+            description:description,
         });
         return results.result;
     };
     const aggregateWithIssues=async()=> {
-        const projcets=await db.aggregate(COLLECTION,LOOK_ISSUES_PIPELINE);
+        const projects=await db.aggregate(COLLECTION,LOOK_ISSUES_PIPELINE);
         return projects;
     };
     return {

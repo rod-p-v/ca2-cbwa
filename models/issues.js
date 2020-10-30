@@ -32,12 +32,15 @@ module.exports = () => {
         const issues=await db.get(COLLECTION, {id});
         return issues;
     };
-    const add = async(name,projects) => {
+    const add = async(slug,title,description,issuesNumber,) => {
+        //let projectsName="";
         const issuesCount=await db.count(COLLECTION);
-        const results=await db.add(COLLECTION, {
+        const results=await db.add(COLLECTION, {            
+            slug:slug,
+            title: title,
+            description: description,
             id:issuesCount+1,
-            name: name,
-            projects: projects
+            issuesNumber:slug+"-"+(issuesCount+1)
         });
         return results.result;
     };

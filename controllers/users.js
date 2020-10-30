@@ -9,20 +9,22 @@ module.exports = () => {
       res.json(await users.aggregateWithProjects());
    };
    
-   const getById = async(req,res)=> {
-      res.json(await users.get(parseInt(req.params.id)));
+   const getByEmail = async(req,res)=> {
+      res.json(await users.get());
    };
    const postController = async( req , res ) => {
       const name = req.body.name;
-      const projects = req.body.projects;
-      const result =await users.add(name,projects);
+      const email=req.body.email;
+      const usertype=req.body.usertype;
+      const key = req.body.key;      
+      const result =await users.add(name,email,usertype,key);
       res.json(result);
    }
    
    return {
       getController ,
       postController, 
-      getById,
+      getByEmail,
       populatedController,
    };
 };

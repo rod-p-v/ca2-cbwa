@@ -9,7 +9,7 @@ module.exports = () => {
             MongoClient.connect(uri, MONGO_OPTIONS, (err, client)=>{
                 const db=client.db(DB_NAME);
                 const collection=db.collection(collectionName);
-
+                
                 collection.countDocuments({}, (err,docs) =>{
                     resolve(docs);
                     client.close();
@@ -17,16 +17,16 @@ module.exports = () => {
             });
         });
     };
-
+    
     const get=(collectionName,query={})=>{
         return new Promise((resolve,reject)=>{
             console.log(collectionName,query,uri);
             MongoClient.connect(uri, MONGO_OPTIONS, (err, client)=>{
-                console.log("err");
-                console.log(err);
+                // console.log("err");
+                // console.log(err);
                 const db=client.db(DB_NAME);
                 const collection=db.collection(collectionName);
-                console.log("find");
+                //console.log("find");
                 collection.find(query).toArray((err,docs)=>{
                     console.log(err);
                     resolve(docs);
@@ -63,15 +63,15 @@ module.exports = () => {
                     }
                     resolve(docs);
                     client.close();
-                    });
                 });
             });
-        };
+        });
+    };
     
     return {
-    count,
-    get,
-    add,
-    aggregate,
+        count,
+        get,
+        add,
+        aggregate,
     };
 };

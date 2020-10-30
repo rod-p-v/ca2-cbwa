@@ -12,10 +12,18 @@ module.exports = () => {
    const getById = async(req,res)=> {
       res.json(await issues.get(parseInt(req.params.id)));
    };
+
+   const getByissuesNumber = async(req,res)=> {
+      res.json(await issues.get(parseInt(req.params.id)));
+   };
+
    const postController = async( req , res ) => {
-      const name = req.body.name;
-      const projects = req.body.projects;
-      const result =await issues.add(name,projects);
+      //const projectsName=projectsName;
+      //const issuesNumber=req.body.issuesNumber;
+      const slug = req.body.slug;
+      const title = req.body.title;
+      const description=req.body.description;
+      const result =await issues.add(slug,title,description);
       res.json(result);
    }
    
@@ -24,5 +32,6 @@ module.exports = () => {
       postController, 
       getById,
       populatedController,
+      getByissuesNumber,
    };
 };
