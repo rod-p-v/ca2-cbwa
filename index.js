@@ -53,9 +53,7 @@ app.use(async (req,res,next)=>{
     //Add a issues
     app.post ('/issues',issuesController.postController);
     //A issues
-    app.get('/issues/:id',issuesController.getById);
-
-    //app.get('/issues/:issuesNumber',issuesController.getByissuesNumber);
+    app.get('/issues/:issuesNumber',issuesController.getByissuesNumber);
     
     //Get all projects
     app.get('/projects',projectsController.getController);
@@ -64,7 +62,7 @@ app.use(async (req,res,next)=>{
     //Add all projects
     app.post ('/projects',projectsController.postController );
     //A projects
-    app.get('/projects/:id',projectsController.getById);
+    app.get('/projects/:slug',projectsController.getBySlug);
     
     //Get all users
     app.get ('/users',usersController.getController);
@@ -73,7 +71,7 @@ app.use(async (req,res,next)=>{
     //Add a users
     app.post ('/users',usersController.postController);
     //A users
-    //app.get('/users/:email',usersController.getByEmail);
+    app.get('/users/:email',usersController.getByEmail);
     
     /*app.get('comments',commentsController.getController);
     //Get all projects with issues
@@ -87,7 +85,7 @@ app.use(async (req,res,next)=>{
     app.get("/", (req,res) =>{
         
         res.json({
-            hello:"Welcome 2",  
+            hello:"Welcome",  
             //count: COUNT++
         });
     });

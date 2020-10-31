@@ -3,13 +3,13 @@ const COLLECTION="users";
 
 module.exports=()=>{
     
-    const get = async(id = null) => {
-        console.log ('inside issues model' );
-        if(!id){
+    const get = async(email = null) => {
+        console.log ('inside users model' );
+        if(!email){
             const users=await db.get(COLLECTION);
             return users;
         }
-        const users=await db.get(COLLECTION, {id});
+        const users=await db.get(COLLECTION, {email});
         return users;
     };
     const add = async(name,email,usertype,key) => {

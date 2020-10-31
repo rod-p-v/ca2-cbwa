@@ -14,7 +14,7 @@ module.exports = () => {
    };
 
    const getByissuesNumber = async(req,res)=> {
-      res.json(await issues.get(parseInt(req.params.id)));
+      res.json(await issues.get(req.params.issuesNumber));
    };
 
    const postController = async( req , res ) => {

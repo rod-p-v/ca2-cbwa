@@ -10,7 +10,7 @@ module.exports = () => {
    };
    
    const getByEmail = async(req,res)=> {
-      res.json(await users.get());
+      res.json(await users.get(req.params.email));
    };
    const postController = async( req , res ) => {
       const name = req.body.name;

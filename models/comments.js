@@ -1,3 +1,5 @@
+const { text } = require("body-parser");
+
 const db = require("../db")();
 const COLLECTION="issues/comments";
 
@@ -32,12 +34,12 @@ module.exports = () => {
         const comments=await db.get(COLLECTION, {id});
         return comments;
     };
-    const add = async(name,projects) => {
+    const add = async(text,author) => {
         const commentsCount=await db.count(COLLECTION);
         const results=await db.add(COLLECTION, {
             id:commentsCount+1,
-            name: name,
-            issues: issues
+            text:text,
+            author:author
         });
         return results.result;
     };

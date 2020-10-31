@@ -14,9 +14,9 @@ module.exports = () => {
       res.json(await comments.get(parseInt(req.params.id)));
    };
    const postController = async( req , res ) => {
-      const name = req.body.name;
-      const issues = req.body.issues;
-      const result =await issues.add(name,issues);
+      const text = req.body.text;
+      const author = req.body.author;
+      const result =await issues.add(text,author);
       res.json(result);
    }
    

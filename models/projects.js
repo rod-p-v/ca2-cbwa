@@ -13,14 +13,14 @@ const LOOK_ISSUES_PIPELINE=[
 
 module.exports = () => {
     
-    const get = async(id = null) => {
+    const get = async(slug = null) => {
         console.log ('inside projects model' );
-        if (!id){
+        if (!slug){
             const projects=await db.get(COLLECTION);
             console.log(projects);
             return projects;
         }
-        const projects=await db.get(COLLECTION,{id});
+        const projects=await db.get(COLLECTION,{slug});
         return projects;
     };
     const add = async(slug,name,description) => {
