@@ -1,9 +1,9 @@
 const { text } = require("body-parser");
 
 const db = require("../db")();
-const COLLECTION="issues/comments";
+const COLLECTION="comments";
 
-const LOOKUP_PROJECT_PIPELINE=[
+const LOOKUP_ISSUES_PIPELINE=[
     {
         $lookup:{
             from:"issues",
@@ -13,7 +13,7 @@ const LOOKUP_PROJECT_PIPELINE=[
         },
     },
     {
-        $issues:{
+        $project:{
             id:1,
             name:1,
             issues:{
@@ -25,13 +25,13 @@ const LOOKUP_PROJECT_PIPELINE=[
 
 module.exports = () => {
     
-    const get = async(id = null) => {
+    const get = async(author = null) => {
         console.log ('inside comments model' );
-        if(!id){
+        if(!author){
             const comments=await db.get(COLLECTION);
             return comments;
         }
-        const comments=await db.get(COLLECTION, {id});
+        const comments=await db.get(COLLECTION, {author});
         return comments;
     };
     const add = async(text,author) => {
@@ -43,13 +43,13 @@ module.exports = () => {
         });
         return results.result;
     };
-    const aggregateWithProjects=async()=>{
-        const comments=await db.aggregate(COLLECTION,LOOKUP_PROJECT_PIPELINE);
+    const aggregateWithIssues=async()=>{
+        const comments=await db.aggregate(COLLECTION,LOOKUP_ISSUES_PIPELINE);
         return comments;
     };
     return {
         get ,
         add,
-        aggregateWithProjects,
+        aggregateWithIssues,
     };
 };

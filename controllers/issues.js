@@ -9,17 +9,12 @@ module.exports = () => {
       res.json(await issues.aggregateWithProjects());
    };
    
-   const getById = async(req,res)=> {
-      res.json(await issues.get(parseInt(req.params.id)));
-   };
-
    const getByissuesNumber = async(req,res)=> {
       res.json(await issues.get(req.params.issuesNumber));
    };
 
    const postController = async( req , res ) => {
-      //const projectsName=projectsName;
-      //const issuesNumber=req.body.issuesNumber;
+   
       const slug = req.body.slug;
       const title = req.body.title;
       const description=req.body.description;
@@ -30,7 +25,6 @@ module.exports = () => {
    return {
       getController ,
       postController, 
-      getById,
       populatedController,
       getByissuesNumber,
    };

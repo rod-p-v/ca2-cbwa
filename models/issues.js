@@ -21,6 +21,17 @@ const LOOKUP_PROJECT_PIPELINE=[
     },
 ];
 
+const LOOK_COMMENTS_PIPELINE=[
+    {
+        $lookup:{
+            from:"comments",
+            localField:"id",
+            foreignField:"issues",
+            as: "comments"
+        },
+    },
+];
+
 module.exports = () => {
     
     const get = async(issuesNumber = null) => {
@@ -33,7 +44,6 @@ module.exports = () => {
         return issues;
     };
     const add = async(slug,title,description) => {
-        //let projectsName="";
         const issuesCount=await db.count(COLLECTION);
         const results=await db.add(COLLECTION, {            
             slug:slug,
@@ -48,9 +58,15 @@ module.exports = () => {
         const issues=await db.aggregate(COLLECTION,LOOKUP_PROJECT_PIPELINE);
         return issues;
     };
+
+    const aggregateWithComments=async()=>{
+        const issues=await db.aggregate(COLLECTION,LOOKUP_COMMENTS_PIPELINE);
+        return issues;
+    };
     return {
         get ,
         add,
+        aggregateWithComments,
         aggregateWithProjects,
     };
 };

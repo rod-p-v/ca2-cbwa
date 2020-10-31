@@ -22,11 +22,9 @@ module.exports = () => {
         return new Promise((resolve,reject)=>{
             console.log(collectionName,query,uri);
             MongoClient.connect(uri, MONGO_OPTIONS, (err, client)=>{
-                // console.log("err");
-                // console.log(err);
+
                 const db=client.db(DB_NAME);
                 const collection=db.collection(collectionName);
-                //console.log("find");
                 collection.find(query).toArray((err,docs)=>{
                     console.log(err);
                     resolve(docs);
