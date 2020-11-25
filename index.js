@@ -61,7 +61,7 @@ app.use(async (req,res,next)=>{
         res.render('index',{
             title:"Bugs tracker",
             heading:"Welcome to our bugs tracker",
-            text:"List with all the current bugs in our system",
+            text:"List with all the current bugs in the system",
             issues:issuesList
         });
     });

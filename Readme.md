@@ -60,7 +60,8 @@ You already can do the following **features**:
 ## Road map
 * Improve the front-end December 2020
 * UI login December 2020
-* Stablish due date January 2020
+* Stablish due date January 2021
+* Add in email notifications February 2021
 * Start unit testing 2021
 
 ## Status
