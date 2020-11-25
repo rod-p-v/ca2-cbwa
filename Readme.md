@@ -30,7 +30,7 @@ install the follow dependencies:node , mongodb , express , hbs, docker
 ## Features
 You already can do the following **features**:
 
-*Projects: *
+*Projects:*
 * Get all projects 
 * Get individual projects 
 * Add new Projects
