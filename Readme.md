@@ -7,8 +7,8 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Features](#features)
-* [Change log](#change log)
-* [Road map](#road map)
+* [Change log](#change-log)
+* [Road map](#road-map)
 * [Status](#status)
 * [Contact](#contact)
 
