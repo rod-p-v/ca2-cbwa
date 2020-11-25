@@ -4,22 +4,38 @@ const comments = require('../models/comments.js')();
 module.exports = () => {
     
     const getController = async(req,res) => {
-        res.json(await comments.get());
+        const{commentsList,error}=await comments.get()
+        if(error){
+            return res.status(500).json({error})
+        }
+        res.json({comments:commentsList});
     };
+    
     const populatedController=async(reg,res)=>{
-        res.json(await comments.aggregateWithProjects());
+        const{commentsList,error}=await comments.aggregateWithProjects()
+        if(error){
+            return res.status(500).json({error})
+        }
+        res.json({comments:commentsList});
     };
     
     const getByAuthor = async(req,res)=> {
-        res.json(await comments.get(req.params.author));
+        const{commentsList,error}=await comments.get(req.params.author);
+        if(error){
+            return res.status(500).json({error})
+        }
+        res.json({comments:commentsList});
     };
+    
     const postController = async( req , res ) => {
         const text = req.body.text;
         const author = req.body.author;
         const result =await issues.add(text,author);
-        res.json(result);
-    }
-    
+        if(error){
+            return res.json({error:error})
+        }
+        res.json({result});
+    };
     return { 
         getController ,
         postController, 

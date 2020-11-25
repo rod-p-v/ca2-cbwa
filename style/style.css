@@ -1,0 +1,17 @@
+body{
+    text-align: left;
+    font-size: large;
+    color: blue;
+    margin: auto;
+}
+h1{
+    text-align: center;
+    border: currentColor;
+    background-color: dodgerblue;
+    color: ivory;
+}
+div{
+    text-align: center;
+    border: currentColor;
+    color:dodgerblue;
+}

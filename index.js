@@ -10,17 +10,19 @@ const issuesController = require ( './controllers/issues' )();
 const usersController = require('./controllers/users' )();
 const commentsController = require('./controllers/comments')();
 
+
 const users=require("./models/users")();
 const app = module.exports = express();
 
 app.use (( req , res , next ) => {
-    
+
     console . log ( '[%s] %s -- %s' , new Date(), req.method, req.url );
     next();
 });
 
 app.use(async (req,res,next)=>{
-    const FailedAuthMessage={
+    
+  const FailedAuthMessage={
         error:"Failed Authentication",
         message:"You aren't an authorized user",
         code:"401",
@@ -44,7 +46,26 @@ app.use(async (req,res,next)=>{
         }
         next();
     });
+    
     app.use(bodyParser.json());
+    
+    const path=require('path');
+    app.set('views',path.join(__dirname,'views'));
+    app.set('view engine','hbs');
+    
+    const ISSUES=require('./models/issues')();
+    app.get("/",async(req,res)=>{
+        const {issuesList}=await ISSUES.get();
+
+        console.log(issuesList);
+        res.render('index',{
+            title:"Bugs tracker",
+            heading:"Welcome to our bugs tracker",
+            text:"List with all the current bugs in our system",
+            issues:issuesList
+        });
+    });
+    
     
     
     
@@ -67,41 +88,31 @@ app.use(async (req,res,next)=>{
     
     
     app.get ('/users',usersController.getController);
-   
+    
     app.get("/users/populated",usersController.populatedController);
-   
+    
     app.post ('/users',usersController.postController);
     
     app.get('/users/:email',usersController.getByEmail);
-
+    
     
     app.get('/comments',commentsController.getController);
- 
+    
     app.get("/comments/populated",commentsController.populatedController);
     
     app.post ('/comments',commentsController.postController );
     
     app.get('/comments/:author',commentsController.getByAuthor);
     
-    app.get("/", (req,res) =>{
-        
-        res.json({
-            hello:"Welcome",  
-          
-        });
-    });
-    
+    app.use(express.static('style'));
+
     app.listen ( port , hostname, () => {
         console.log ( `Server running at http:// ${hostname}:${port}/`);
     });
-   
+    
     app.use((req,res) => {
         res.status(404).json ({
             error: 404 ,
             message: 'Route not found',
         });
     });
-    
-    
-    
-   
